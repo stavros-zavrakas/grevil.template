@@ -1,20 +1,31 @@
+'use strict';
+
 const path = require('path');
 
+const exphbs = require('express-handlebars');
+
 const consumes = [];
-const provides = [];
+const provides = ['grevil.template'];
 
 function setup(options, imports, register) {
-  const metadata = {};
+  let metadata = {};
 
   const viewsPath = path.join(__dirname, '/views');
   const layoutsDir = path.resolve(path.join(viewsPath, 'layouts'));
   const partialsDir = path.resolve(path.join(viewsPath, 'partials'));
+
+  const expHbs = exphbs({
+    layoutsDir: layoutsDir,
+    partialsDir: partialsDir,
+    defaultLayout: 'main'
+  });
+
   const publicPath = path.join(__dirname, '/public');
   
   metadata = {
-    layoutsDir: layoutsDir,
-    partialsDir: partialsDir,
-    defaultLayout: 'main',
+    viewsPath: viewsPath,
+    engine: 'handlebars',
+    exphbs: expHbs,
     publicPath: publicPath
   };
 
